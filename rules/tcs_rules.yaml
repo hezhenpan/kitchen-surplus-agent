@@ -1,0 +1,61 @@
+# Time/Temperature Control for Safety (TCS) rules applied by the Safety Agent.
+#
+# Every threshold below carries its source. These are real food-safety
+# standards, not invented values -- the agent enforces them, it does not
+# improvise them.
+
+version: "2026-09-05"
+
+thresholds:
+  cold_holding_max_f:
+    value: 41
+    unit: fahrenheit
+    rule: "TCS food held cold must be at or below 41F."
+    source: "FDA Food Code 3-501.16 / Community Food Rescue food safety guidelines"
+
+  hot_holding_min_f:
+    value: 135
+    unit: fahrenheit
+    rule: "Hot prepared product must be received at 135F or above."
+    source: "Community Food Rescue -- Food Safety Guidelines for recipients"
+
+  hot_food_service_window_hours:
+    value: 4
+    unit: hours
+    rule: "Hot prepared product must be served within 4 hours of donation."
+    source: "Community Food Rescue -- Food Safety Guidelines for recipients"
+
+  danger_zone_f:
+    low: 42
+    high: 134
+    unit: fahrenheit
+    rule: "TCS food between 42F and 134F is acceptable for no more than 4 hours total."
+    source: "FDA Food Code 3-501.19 (time as a public health control)"
+
+  danger_zone_max_hours:
+    value: 4
+    unit: hours
+    rule: "Discard TCS food held in the danger zone beyond 4 cumulative hours."
+    source: "FDA Food Code 3-501.19"
+
+sourcing:
+  licensed_source_required:
+    rule: "Recipients may accept TCS food only from a permitted or licensed food source."
+    source: "Community Food Rescue -- Food Safety Guidelines"
+
+# Labels the generator must attach to donated TCS food. The agent emits these
+# as structured output so they can be printed onto the container.
+required_labels:
+  - food_name
+  - food_source
+  - date_prepared
+  - time_removed_from_temperature_control
+
+# Categories that are NOT TCS and therefore not clock-limited. The Safety Agent
+# classifies free-text menu item names; this list is guidance for that call,
+# not an exhaustive lookup table.
+non_tcs_guidance:
+  - "Commercially packaged shelf-stable goods"
+  - "Whole uncut raw produce"
+  - "Breads, rolls and other low-moisture baked goods without dairy filling"
+  - "Dry goods (rice, pasta, flour) that were never cooked or hydrated"

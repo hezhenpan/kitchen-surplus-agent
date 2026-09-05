@@ -1,0 +1,12 @@
+item_id,name,menu_category,station,prepared_qty,sold_qty,remaining_qty,unit,unit_weight_lbs,prepared_at,holding_state,last_temp_f,last_temp_check_at
+ITM-001,Rotisserie Chicken,Entree,Grill,24,12,12,each,2.5,2026-09-05T18:30,hot,141.0,2026-09-05T21:00
+ITM-002,Steamed Jasmine Rice,Side,Wok,40,26,14,lb,1.0,2026-09-05T16:00,hot,138.0,2026-09-05T21:00
+ITM-003,Kung Pao Chicken,Entree,Wok,30,22,8,lb,1.0,2026-09-05T15:30,hot,129.0,2026-09-05T21:00
+ITM-004,Caesar Salad (undressed),Salad,Cold,18,11,7,each,0.6,2026-09-05T17:30,cold,38.0,2026-09-05T21:00
+ITM-005,Dinner Rolls,Bakery,Bakery,60,41,19,each,0.15,2026-09-05T13:30,ambient,,
+ITM-006,Clam Chowder,Soup,Line,25,19,6,lb,1.0,2026-09-05T14:30,hot,144.0,2026-09-05T21:00
+ITM-007,Sliced Watermelon,Produce,Cold,20,14,6,lb,1.0,2026-09-05T16:30,cold,40.0,2026-09-05T21:00
+ITM-008,Pork Belly Bao,Entree,Steam,36,20,16,each,0.35,2026-09-05T19:00,hot,137.0,2026-09-05T21:00
+ITM-009,Garden Salad Mix (bagged),Produce,Cold,12,4,8,lb,1.0,2026-09-05T12:30,cold,39.0,2026-09-05T21:00
+ITM-010,Mac and Cheese,Side,Line,28,15,13,lb,1.0,2026-09-05T15:00,ambient,96.0,2026-09-05T20:00
+ITM-011,Yangzhou Fried Rice,Side,Wok,35,21,14,lb,1.0,2026-09-05T14:30,ambient,88.0,2026-09-05T16:30
