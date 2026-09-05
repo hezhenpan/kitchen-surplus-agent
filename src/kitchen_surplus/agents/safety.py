@@ -3,9 +3,12 @@
 from __future__ import annotations
 
 from strands import Agent
+from strands.handlers import PrintingCallbackHandler
 
 from ..llm import build_model
 from ..tools import build_chill_plan, compute_hold_window
+
+_DEFAULT_HANDLER = PrintingCallbackHandler()
 
 SYSTEM_PROMPT = """\
 You are the food safety authority for a restaurant's surplus donation.
@@ -36,8 +39,9 @@ worse than food that goes to waste.
 """
 
 
-def build_safety_agent() -> Agent:
+def build_safety_agent(*, quiet: bool = False) -> Agent:
     return Agent(
+        callback_handler=(lambda **_: None) if quiet else _DEFAULT_HANDLER,
         name="safety_agent",
         description=(
             "Classifies leftover items as TCS or non-TCS, computes how long "

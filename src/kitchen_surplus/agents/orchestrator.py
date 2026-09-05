@@ -3,11 +3,14 @@
 from __future__ import annotations
 
 from strands import Agent
+from strands.handlers import PrintingCallbackHandler
 
 from ..llm import build_model
 from ..tools import parse_pos_export
 from .matching import build_matching_agent
 from .safety import build_safety_agent
+
+_DEFAULT_HANDLER = PrintingCallbackHandler()
 
 SYSTEM_PROMPT = """\
 You help a restaurant manager decide what to do with tonight's surplus, in the
@@ -36,11 +39,13 @@ claim so the record stands up later.
 """
 
 
-def build_orchestrator() -> Agent:
+def build_orchestrator(*, quiet: bool = False) -> Agent:
     return Agent(
+        callback_handler=(lambda **_: None) if quiet else _DEFAULT_HANDLER,
         name="kitchen_surplus_orchestrator",
         description="Turns an end-of-day POS export into a surplus action plan.",
         model=build_model("reasoning"),
         system_prompt=SYSTEM_PROMPT,
-        tools=[parse_pos_export, build_safety_agent(), build_matching_agent()],
+        tools=[parse_pos_export, build_safety_agent(quiet=quiet),
+               build_matching_agent(quiet=quiet)],
     )

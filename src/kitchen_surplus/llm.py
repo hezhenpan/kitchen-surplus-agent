@@ -48,8 +48,8 @@ _DEFAULTS: dict[str, dict[Role, str]] = {
     # Anthropic client with a different base_url. Test-phase only: the final
     # submission should run on a provider the judges expect.
     "glm": {
-        "fast": "glm-4.5-air",
-        "reasoning": "glm-4.6",
+        "fast": "glm-5.3-flash",
+        "reasoning": "glm-5.3",
     },
 }
 

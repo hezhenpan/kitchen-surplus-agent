@@ -5,6 +5,8 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+from strands import tool
+
 from ..models import OpenWindow, Recipient
 
 DEFAULT_PATH = Path(__file__).resolve().parents[3] / "data" / "recipients.json"
@@ -38,3 +40,38 @@ def load_recipients(path: str | Path = DEFAULT_PATH) -> list[Recipient]:
             )
         )
     return out
+
+
+@tool
+def list_recipients() -> str:
+    """List every food recovery organization and what it publicly accepts.
+
+    Call this first: the eligibility and scheduling tools take a
+    recipient_id, and this is where those identifiers come from.
+
+    Returns:
+        JSON roster with each organization's id, name, service area, accepted
+        food categories, pickup minimum, published hours and source URL.
+        A null field means the organization does not publish that constraint,
+        which has to be confirmed with them rather than assumed.
+    """
+    roster = [
+        {
+            "recipient_id": r.recipient_id,
+            "name": r.name,
+            "org_type": r.org_type,
+            "service_area": r.service_area,
+            "accepts": r.accepts,
+            "min_pickup_lbs": r.min_pickup_lbs,
+            "offers_pickup": r.offers_pickup,
+            "open_windows": (
+                [{"days": w.days, "start": w.start, "end": w.end, "note": w.note}
+                 for w in r.open_windows] if r.open_windows else None
+            ),
+            "contact_email": r.contact_email,
+            "constraints_notes": r.constraints_notes,
+            "source": r.source_url,
+        }
+        for r in load_recipients()
+    ]
+    return json.dumps(roster, indent=2)
