@@ -40,7 +40,7 @@ ROWS: list[tuple] = [
 
 
 def main() -> None:
-    writer = csv.writer(sys.stdout)
+    writer = csv.writer(sys.stdout, lineterminator="\n")
     writer.writerow(COLUMNS)
     for i, (name, cat, station, prep, sold, unit, wt,
             prep_off, holding, temp, temp_off) in enumerate(ROWS, start=1):
