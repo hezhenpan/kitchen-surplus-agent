@@ -84,7 +84,7 @@ def resolve_model_id(role: Role, provider: str) -> str:
     return _DEFAULTS[provider][role]
 
 
-def build_model(role: Role = "reasoning", *, max_tokens: int = 4096) -> Model:
+def build_model(role: Role = "reasoning", *, max_tokens: int = 8192) -> Model:
     """Return a Strands model for the given role under the active provider."""
     _load_dotenv()
     provider = os.getenv("KSA_PROVIDER", "anthropic").lower()

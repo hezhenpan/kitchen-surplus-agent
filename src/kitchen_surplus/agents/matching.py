@@ -50,7 +50,10 @@ def build_matching_agent(*, quiet: bool = False) -> Agent:
             "their published intake constraints and opening hours, splitting "
             "donations when needed."
         ),
-        model=build_model("reasoning"),
+        # This agent reports a full item-by-recipient eligibility matrix, which
+        # overran a 4k budget and left the orchestrator retrying a truncated
+        # response until it gave up.
+        model=build_model("reasoning", max_tokens=16384),
         system_prompt=SYSTEM_PROMPT,
         tools=[list_recipients, check_intake_eligibility, next_open_window],
     )

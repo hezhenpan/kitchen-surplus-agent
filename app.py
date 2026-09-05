@@ -31,6 +31,13 @@ NON_TCS_HINT = ("roll", "bread", "bun", "cracker")
 st.set_page_config(page_title="Kitchen Surplus", page_icon="🍲",
                    layout="wide")
 
+# The dev toolbar is noise for anyone who is not running the server.
+st.markdown(
+    "<style>[data-testid='stToolbar'],[data-testid='stDecoration']"
+    "{display:none!important}</style>",
+    unsafe_allow_html=True,
+)
+
 
 def unwrap(tool):
     return getattr(tool, "func", tool)
@@ -97,7 +104,7 @@ left, right = st.columns([3, 2])
 
 with left:
     st.subheader("What is left")
-    st.dataframe(rows, use_container_width=True, hide_index=True)
+    st.dataframe(rows, width="stretch", hide_index=True)
     st.caption(
         "Safe-until times come from the TCS rule set in rules/tcs_rules.yaml "
         "(FDA Food Code 3-501.16 / .19), not from the model."
