@@ -65,13 +65,15 @@ it off. It is a feeder for the food recovery network, not a competitor to it.
 flowchart TB
     CSV["End-of-day POS export<br/>(vendor-neutral CSV)"]
 
-    subgraph judgement["Judgement — agents"]
+    subgraph judgement["Judgement — Strands agents"]
+        direction LR
         ORCH["Orchestrator<br/><i>agents-as-tools</i>"]
         SAFETY["Safety Agent<br/>classifies TCS · holds veto"]
         MATCH["Matching Agent<br/>assigns food class · places items"]
     end
 
     subgraph arithmetic["Arithmetic — deterministic tools"]
+        direction LR
         CLOCK["compute_hold_window"]
         CHILL["build_chill_plan"]
         LIST["list_recipients"]
@@ -80,15 +82,19 @@ flowchart TB
         REC["generate_donation_record"]
     end
 
-    subgraph sources["Sourced data"]
+    subgraph sources["Sourced data — every value carries its citation"]
+        direction LR
         RULES["rules/tcs_rules.yaml<br/>FDA Food Code 3-501.14 / .16 / .19"]
         ORGS["data/recipients.json<br/>constraints from each org's own donor page"]
-        LAW["14 CCR 18991.4<br/>record fields"]
+        LAW["14 CCR 18991.4<br/>required record fields"]
     end
 
-    OUT1["TONIGHT<br/>cooling checklist with checkpoints"]
-    OUT2["TOMORROW<br/>placements + what to confirm"]
-    OUT3["Compliance record<br/>with gaps named"]
+    subgraph outputs["What the manager gets at 21:30"]
+        direction LR
+        OUT1["TONIGHT<br/>cooling checklist with checkpoints"]
+        OUT2["TOMORROW<br/>placements + what to confirm"]
+        OUT3["Compliance record<br/>with gaps named"]
+    end
 
     CSV --> ORCH
     ORCH --> SAFETY
@@ -218,3 +224,6 @@ recipient, not a fabricated certainty.
 ## License
 
 MIT
+
+> Architecture diagram: [docs/architecture.png](docs/architecture.png) — regenerate by opening
+> `docs/architecture.html` in a browser and exporting the page.

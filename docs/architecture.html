@@ -1,0 +1,97 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Kitchen Surplus Agent — architecture</title>
+<style>
+  :root { color-scheme: light; }
+  body {
+    margin: 0; padding: 48px 56px; background: #fbfaf8;
+    font: 15px/1.5 -apple-system, "Segoe UI", system-ui, sans-serif;
+    color: #1c1a17;
+  }
+  header { max-width: 1100px; margin: 0 auto 28px; }
+  h1 { margin: 0 0 6px; font-size: 26px; letter-spacing: -0.01em; }
+  p.sub { margin: 0; color: #6b645c; font-size: 15px; }
+  .wrap { max-width: 1100px; margin: 0 auto; }
+  .rule { max-width: 1100px; margin: 30px auto 0; padding: 14px 18px;
+          border-left: 3px solid #c9722f; background: #fff4ea;
+          font-size: 15px; color: #4a4038; }
+  .rule b { color: #a3541b; }
+  footer { max-width: 1100px; margin: 26px auto 0; color: #8a8279; font-size: 13px; }
+</style>
+<header>
+  <h1>Kitchen Surplus Agent</h1>
+  <p class="sub">Strands agents over a sourced, deterministic rule layer</p>
+</header>
+<div class="wrap">
+<pre class="mermaid">
+flowchart TB
+    CSV["End-of-day POS export<br/>(vendor-neutral CSV)"]
+
+    subgraph judgement["Judgement — Strands agents"]
+        direction LR
+        ORCH["Orchestrator<br/><i>agents-as-tools</i>"]
+        SAFETY["Safety Agent<br/>classifies TCS · holds veto"]
+        MATCH["Matching Agent<br/>assigns food class · places items"]
+    end
+
+    subgraph arithmetic["Arithmetic — deterministic tools"]
+        direction LR
+        CLOCK["compute_hold_window"]
+        CHILL["build_chill_plan"]
+        LIST["list_recipients"]
+        ELIG["check_intake_eligibility"]
+        WIN["next_open_window"]
+        REC["generate_donation_record"]
+    end
+
+    subgraph sources["Sourced data — every value carries its citation"]
+        direction LR
+        RULES["rules/tcs_rules.yaml<br/>FDA Food Code 3-501.14 / .16 / .19"]
+        ORGS["data/recipients.json<br/>constraints from each org's own donor page"]
+        LAW["14 CCR 18991.4<br/>required record fields"]
+    end
+
+    subgraph outputs["What the manager gets at 21:30"]
+        direction LR
+        OUT1["TONIGHT<br/>cooling checklist with checkpoints"]
+        OUT2["TOMORROW<br/>placements + what to confirm"]
+        OUT3["Compliance record<br/>with gaps named"]
+    end
+
+    CSV --> ORCH
+    ORCH --> SAFETY
+    ORCH --> MATCH
+    SAFETY -. veto forces re-plan .-> MATCH
+
+    SAFETY --> CLOCK & CHILL
+    MATCH --> LIST & ELIG & WIN
+    ORCH --> REC
+
+    CLOCK & CHILL --> RULES
+    LIST & ELIG & WIN --> ORGS
+    REC --> LAW
+
+    SAFETY --> OUT1
+    MATCH --> OUT2
+    REC --> OUT3
+</pre>
+</div>
+<div class="rule">
+  <b>The one design rule:</b> judgement goes to an agent, arithmetic goes to a tool.
+  Whether “Kung Pao Chicken” is a temperature-controlled food is a judgement about a
+  free-text menu name. How long it then stays safe is arithmetic against a published
+  rule — and the Safety Agent is instructed never to state a deadline it did not get
+  back from a tool.
+</div>
+<footer>github.com/hezhenpan/kitchen-surplus-agent · MIT</footer>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+<script>
+  mermaid.initialize({
+    startOnLoad: true, theme: "base",
+    themeVariables: {
+      background: "#fbfaf8", primaryColor: "#ffffff", primaryTextColor: "#1c1a17",
+      primaryBorderColor: "#c3bcb2", lineColor: "#8a8279", fontSize: "15px",
+      clusterBkg: "#f2efea", clusterBorder: "#d8d2c8"
+    }
+  });
+</script>
