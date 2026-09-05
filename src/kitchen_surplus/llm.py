@@ -8,12 +8,14 @@ a code change.
 Configure with environment variables (a .env file next to the repo root is
 loaded automatically):
 
-    KSA_PROVIDER   anthropic (default) | bedrock | ollama
+    KSA_PROVIDER   anthropic (default) | bedrock | glm | ollama
     KSA_MODEL_FAST     override the model behind the "fast" role
     KSA_MODEL_REASONING override the model behind the "reasoning" role
 
 Provider-specific:
     ANTHROPIC_API_KEY   required when KSA_PROVIDER=anthropic
+    GLM_API_KEY         required when KSA_PROVIDER=glm
+    KSA_BASE_URL        override the Anthropic-compatible endpoint
     AWS_PROFILE_KSA     AWS profile for bedrock; never falls back to `default`
     AWS_REGION_KSA      AWS region for bedrock (default us-west-2)
     OLLAMA_HOST         default http://localhost:11434
@@ -42,6 +44,18 @@ _DEFAULTS: dict[str, dict[Role, str]] = {
         "fast": "llama3.2",
         "reasoning": "llama3.1:8b",
     },
+    # Zhipu GLM exposes an Anthropic-compatible endpoint, so it reuses the
+    # Anthropic client with a different base_url. Test-phase only: the final
+    # submission should run on a provider the judges expect.
+    "glm": {
+        "fast": "glm-4.5-air",
+        "reasoning": "glm-4.6",
+    },
+}
+
+# Anthropic-compatible endpoints, keyed by provider.
+_BASE_URLS: dict[str, str] = {
+    "glm": "https://open.bigmodel.cn/api/anthropic",
 }
 
 _ENV_OVERRIDE: dict[Role, str] = {
@@ -81,17 +95,22 @@ def build_model(role: Role = "reasoning", *, max_tokens: int = 4096) -> Model:
         )
     model_id = resolve_model_id(role, provider)
 
-    if provider == "anthropic":
+    if provider in ("anthropic", "glm"):
         from strands.models.anthropic import AnthropicModel
 
-        api_key = os.getenv("ANTHROPIC_API_KEY")
+        key_var = "ANTHROPIC_API_KEY" if provider == "anthropic" else "GLM_API_KEY"
+        api_key = os.getenv(key_var)
         if not api_key:
             raise RuntimeError(
-                "ANTHROPIC_API_KEY is not set. Put it in a .env file at the "
-                "repo root or export it, or set KSA_PROVIDER to bedrock/ollama."
+                f"{key_var} is not set. Put it in a .env file at the repo root "
+                f"or export it, or set KSA_PROVIDER to another provider."
             )
+        client_args: dict[str, str] = {"api_key": api_key}
+        base_url = os.getenv("KSA_BASE_URL") or _BASE_URLS.get(provider)
+        if base_url:
+            client_args["base_url"] = base_url
         return AnthropicModel(
-            client_args={"api_key": api_key},
+            client_args=client_args,
             model_id=model_id,
             max_tokens=max_tokens,
         )
