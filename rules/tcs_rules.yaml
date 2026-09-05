@@ -38,6 +38,25 @@ thresholds:
     rule: "Discard TCS food held in the danger zone beyond 4 cumulative hours."
     source: "FDA Food Code 3-501.19"
 
+  cooling_stage_one:
+    from_f: 135
+    to_f: 70
+    max_hours: 2
+    rule: "Cooked TCS food must cool from 135F to 70F within 2 hours."
+    source: "FDA Food Code 3-501.14"
+
+  cooling_stage_two:
+    from_f: 70
+    to_f: 41
+    max_hours: 4
+    total_max_hours: 6
+    rule: "Cooked TCS food must then cool from 70F to 41F within 4 more hours, 6 hours total."
+    source: "FDA Food Code 3-501.14"
+
+  cooling_failure_action:
+    rule: "If the food has not reached 70F at the 2-hour checkpoint it must be reheated to 165F and cooling restarted, or discarded."
+    source: "FDA Food Code 3-501.14"
+
 sourcing:
   licensed_source_required:
     rule: "Recipients may accept TCS food only from a permitted or licensed food source."
