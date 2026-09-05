@@ -1,0 +1,55 @@
+
+
+===TOOLCALLS=== ['parse_pos_export', 'safety_agent', 'matching_agent']
+===ANSWER===
+## TONIGHT — 21:30 to 21:45 (this decides whether tomorrow's donation exists)
+
+**Do first — these two are already burning clock:**
+- [ ] **Mac & Cheese, 13.0 lbs** — into rapid cool NOW. Danger-zone clock started 20:00 (FDA Food Code 3-501.19). Split into shallow pans.
+- [ ] **Kung Pao Chicken, 8.0 lbs** — into rapid cool NOW. Clock started 21:00 when holding hit 129F (FDA 3-501.19).
+
+**Then, same treatment:**
+- [ ] Rotisserie Chicken, 30.0 lbs
+- [ ] Jasmine Rice, 14.0 lbs
+- [ ] Clam Chowder, 6.0 lbs (shallow pans — soup cools slow)
+- [ ] Pork Belly Bao, 5.6 lbs
+
+All six: shallow pans, ice bath or blast chiller. Checkpoints for every one:
+- **≤70F by 23:30 tonight**
+- **≤41F by 03:30**
+- Miss either → reheat to 165F and restart, or discard (FDA Food Code 3-501.14)
+
+**While that's set up:**
+- [ ] Salad (4.2 lbs), watermelon (6.0 lbs), bagged greens (8.0 lbs) → walk-in, hold ≤41F. No hard end time from the engine — safe only while the cold chain holds (FDA 3-501.16). Verify ≤41F at handoff.
+- [ ] Dinner rolls, 2.85 lbs → bag, shelf. Non-TCS, no clock.
+- [ ] Label everything with chill start time. Log the 21:30 temps.
+
+**Hard deadline reminder:** Mac & Cheese's total danger-zone exposure must end by **00:00** — cooling to ≤41F cannot slip past that.
+
+## TOMORROW — Sunday 2026-09-06
+
+**Primary — one call, everything goes:**
+- **Food Runners SF (ExtraFood)** — all 10 items, **97.65 lbs**
+- Contact: **donate@extrafood.org** — their model is call in the morning, pickup in 1–2 hours
+- Takes cold-prepared, produce, and shelf-stable; no published quantity limits (foodrunners.org/donate-food/)
+
+**Confirm with them — unpublished:**
+1. Sunday pickup available at all
+2. Sunday pickup window
+3. You're inside SF city limits (they didn't have your address)
+4. Shellfish OK — chowder contains clams; no published allergen policy
+
+**Fallback if Food Runners can't do Sunday — you drive:**
+- **White Pony Express** — 94.75 lbs (everything except the rolls)
+- Drop-off window **08:00–16:00, after 11:00 preferred** (whiteponyexpress.org FAQ)
+- Pickup is off the table: they require **300 lbs minimum** for pickup, you have 97.65
+- Rolls aren't in their accepted categories — keep them for Food Runners or Alameda County Food Bank (Monday 07:00–16:00, confirm acceptance before delivering)
+
+**Monday backup if tomorrow fails entirely:** Alameda County Community Food Bank, Mon 07:00–16:00, takes all three classes and offers pickup — but confirm acceptance first.
+
+One catch: all of tomorrow's placements assume the 03:30 cooling actually completes. Anything still hot at handoff → Food Runners only.
+
+## DISCARD
+
+- **Yangzhou Fried Rice, 14.0 lbs** — danger-zone clock ran out at **20:30**, an hour before close. Held 88F since 16:30; 4-hour limit exceeded (FDA Food Code 3-501.19). Cooling cannot restart an expired clock. Trash it now so nobody "rescues" it.
+
