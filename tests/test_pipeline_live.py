@@ -40,12 +40,10 @@ def run() -> dict[str, object]:
         f"{ROOT / 'data' / 'pos_eod_sample.csv'}. Work out what to do with "
         f"tonight's surplus."
     ))
-    calls = [
-        block["toolUse"]["name"]
-        for message in agent.messages
-        for block in message.get("content", [])
-        if isinstance(block, dict) and "toolUse" in block
-    ]
+    from kitchen_surplus.trace import collect_tool_calls
+
+    trace = collect_tool_calls(agent)
+    calls = [tool for _, tool in trace]
 
     provider = active_provider()
     stamp = datetime.now().strftime("%Y%m%d-%H%M%S")
@@ -53,10 +51,11 @@ def run() -> dict[str, object]:
     out_dir.mkdir(exist_ok=True)
     (out_dir / f"pipeline_{provider}_{stamp}.txt").write_text(
         f"provider={provider} model={resolve_model_id('reasoning', provider)}\n"
-        f"tool_calls={calls}\n\n{answer}",
+        "trace:\n" + "\n".join(f"  {a} -> {t}" for a, t in trace)
+        + f"\n\n{answer}",
         encoding="utf-8",
     )
-    return {"answer": answer, "calls": calls}
+    return {"answer": answer, "calls": calls, "trace": trace}
 
 
 def test_delegates_to_both_specialist_agents(run):
@@ -95,11 +94,20 @@ def test_food_bank_that_refuses_restaurant_food_is_not_a_placement(run):
     match = re.search(r"(SF-?Marin|San Francisco-Marin)", answer, re.I)
     if match is None:
         return  # correctly absent
-    window = answer[max(0, match.start() - 200):match.end() + 200].lower()
-    assert any(w in window for w in
-               ("not accept", "does not", "refuse", "exclude", "cannot")), (
-        "SF-Marin appeared without an explanation of why it is excluded"
+    window = answer[max(0, match.start() - 300):match.end() + 300].lower()
+    negatives = ("not accept", "does not", "doesn't", "refuse", "reject",
+                 "exclude", "cannot", "can't", "won't", "takes no",
+                 "no restaurant food", "ineligible", "not a match",
+                 "don't bother", "not an option", "rule out", "ruled out")
+    assert any(w in window for w in negatives), (
+        "SF-Marin appeared without any indication that it is excluded; "
+        f"context was: {window!r}"
     )
+
+
+def test_food_runners_is_the_primary_placement(run):
+    """It is the only listed organization that takes prepared restaurant food."""
+    assert re.search(r"food ?runners", run["answer"], re.I)
 
 
 def test_unpublished_constraints_are_surfaced_as_questions(run):

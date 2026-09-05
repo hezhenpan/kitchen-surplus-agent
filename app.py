@@ -19,6 +19,7 @@ ROOT = Path(__file__).resolve().parent
 sys.path.insert(0, str(ROOT / "src"))
 
 from kitchen_surplus.llm import active_provider, resolve_model_id  # noqa: E402
+from kitchen_surplus.trace import collect_tool_calls  # noqa: E402
 from kitchen_surplus.tools import (  # noqa: E402
     compute_hold_window, list_recipients, load_surplus_items,
 )
@@ -126,12 +127,9 @@ if st.button("Work out tonight's plan", type="primary"):
             f"The restaurant closed at {closed}. The end-of-day export is at "
             f"{EXPORT}. Work out what to do with tonight's surplus."
         ))
-        calls = [
-            block["toolUse"]["name"]
-            for message in agent.messages
-            for block in message.get("content", [])
-            if isinstance(block, dict) and "toolUse" in block
-        ]
+        trace = collect_tool_calls(agent)
     st.markdown(answer)
-    with st.expander(f"Tool calls ({len(calls)})"):
-        st.code(" → ".join(calls))
+    with st.expander(f"How this was worked out — {len(trace)} tool calls"):
+        for who, tool in trace:
+            indent = "" if who == "kitchen_surplus_orchestrator" else "    "
+            st.text(f"{indent}{who} → {tool}")
