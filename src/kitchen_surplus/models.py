@@ -42,23 +42,39 @@ class SurplusItem:
 
 
 @dataclass(frozen=True)
+class OpenWindow:
+    """A published intake window, e.g. Mon-Fri 08:00-14:00."""
+
+    days: str
+    start: str
+    end: str
+    note: str | None = None
+
+
+@dataclass(frozen=True)
 class Recipient:
     """A food recovery organization or service.
 
-    `source_url` records where the intake constraints came from, so the demo
-    data stays auditable rather than invented.
+    Constraints are transcribed from each organization's own public donor
+    page; `source_url` records which one. A constraint the organization does
+    not publish stays `None` -- the agent must treat that as "ask", never as
+    "assume yes".
     """
 
     recipient_id: str
     name: str
+    org_type: str
     address: str
-    contact_email: str
-    contact_phone: str
-    open_windows: list[str]          # e.g. ["Mon-Fri 09:00-17:00"]
-    has_refrigeration: bool
-    accepts_prepared_food: bool
-    max_intake_lbs: float
-    dietary_restrictions: list[str]  # e.g. ["no-pork", "halal-preferred"]
+    service_area: list[str]
+    contact_email: str | None
+    contact_phone: str | None
+    open_windows: list[OpenWindow] | None
+    accepts: dict[str, bool]
+    min_pickup_lbs: float | None
+    offers_pickup: bool
+    pickup_lead_time_minutes: int | None
+    has_refrigerated_transport: bool | None
+    constraints_notes: str
     source_url: str
 
 

@@ -1,0 +1,107 @@
+{
+  "_meta": {
+    "description": "Real Bay Area food recovery organizations. Every constraint below is taken from the organization's own public donor-facing page; `source_url` records where. Fields that the organization does not publish are null rather than guessed -- an unknown constraint must be resolved by asking, not by inventing.",
+    "verified_on": "2026-09-05",
+    "note": "Only general organization contacts are recorded. Individual staff contacts published on these pages are deliberately omitted."
+  },
+  "recipients": [
+    {
+      "recipient_id": "REC-FOODRUNNERS-SF",
+      "name": "Food Runners San Francisco (an ExtraFood program)",
+      "org_type": "food_recovery_service",
+      "address": "San Francisco, CA",
+      "service_area": ["San Francisco"],
+      "contact_email": "Donate@extrafood.org",
+      "contact_phone": null,
+      "open_windows": null,
+      "accepts": {
+        "hot_prepared": true,
+        "cold_prepared": true,
+        "produce": true,
+        "dairy_meat": true,
+        "shelf_stable": true
+      },
+      "min_pickup_lbs": null,
+      "offers_pickup": true,
+      "pickup_lead_time_minutes": 120,
+      "has_refrigerated_transport": null,
+      "constraints_notes": "Picks up excess perishable and prepared food from restaurants, caterers, bakeries, hotels and corporate cafeterias. 'If you call in the morning a volunteer or our truck driver will come within 1-2 hours.' No published minimum or maximum quantity. Published guidance describes morning requests; after-close availability is not stated on the page.",
+      "source_url": "https://www.foodrunners.org/donate-food/"
+    },
+    {
+      "recipient_id": "REC-WPE-CONCORD",
+      "name": "White Pony Express",
+      "org_type": "food_recovery_organization",
+      "address": "2470 Bates Avenue, Suite D, Concord, CA 94520",
+      "service_area": ["Contra Costa County"],
+      "contact_email": "Info@WhitePonyExpress.org",
+      "contact_phone": "925-322-0604",
+      "open_windows": [
+        { "days": "Sun-Sat", "start": "08:00", "end": "16:00", "note": "drop-off, preferably after 11:00" }
+      ],
+      "accepts": {
+        "hot_prepared": true,
+        "cold_prepared": true,
+        "produce": true,
+        "dairy_meat": true,
+        "shelf_stable": false
+      },
+      "min_pickup_lbs": 300,
+      "offers_pickup": true,
+      "pickup_lead_time_minutes": null,
+      "has_refrigerated_transport": true,
+      "constraints_notes": "'Generally, we require 300 lbs. or more in donations for us to come pick up from you.' Prepared food accepted only if 'properly prepared and handled in a certified commercial kitchen, kept at the proper temperature, and was never handled by the general public at any point.' All food transported in refrigerated vehicles. Prefers fresh, nutrient-dense food; ~90% of what it distributes is perishable.",
+      "source_url": "https://whiteponyexpress.org/white-pony-express-food-rescue-faq/"
+    },
+    {
+      "recipient_id": "REC-SFMFB-SF",
+      "name": "San Francisco-Marin Food Bank",
+      "org_type": "food_bank",
+      "address": "900 Pennsylvania Avenue, San Francisco, CA",
+      "service_area": ["San Francisco", "Marin County"],
+      "contact_email": "orders@sfmfoodbank.org",
+      "contact_phone": null,
+      "open_windows": [
+        { "days": "Mon-Fri", "start": "08:00", "end": "14:00", "note": null }
+      ],
+      "accepts": {
+        "hot_prepared": false,
+        "cold_prepared": false,
+        "produce": true,
+        "dairy_meat": false,
+        "shelf_stable": true
+      },
+      "min_pickup_lbs": null,
+      "offers_pickup": false,
+      "pickup_lead_time_minutes": null,
+      "has_refrigerated_transport": null,
+      "constraints_notes": "Explicitly does NOT accept 'restaurant food' or 'mixed food and perishables from catered events', nor improperly temperature-maintained food. Accepts food in original unopened packaging and whole fresh produce. Redirects restaurants and caterers to Food Runners (SF) or ExtraFood (Marin). Donations over 300 lbs require advance notice.",
+      "source_url": "https://www.sfmfoodbank.org/food-industry-donations/"
+    },
+    {
+      "recipient_id": "REC-ACCFB-OAKLAND",
+      "name": "Alameda County Community Food Bank",
+      "org_type": "food_bank",
+      "address": "7900 Edgewater Dr, Oakland, CA 94621",
+      "service_area": ["Alameda County"],
+      "contact_email": "info@accfb.org",
+      "contact_phone": "510-635-3663",
+      "open_windows": [
+        { "days": "Mon-Fri", "start": "07:00", "end": "16:00", "note": null }
+      ],
+      "accepts": {
+        "hot_prepared": false,
+        "cold_prepared": true,
+        "produce": true,
+        "dairy_meat": true,
+        "shelf_stable": true
+      },
+      "min_pickup_lbs": null,
+      "offers_pickup": true,
+      "pickup_lead_time_minutes": null,
+      "has_refrigerated_transport": null,
+      "constraints_notes": "Published accepted categories: 'Fresh produce; Shelf-stable/Non-perishable foods; Fresh/Frozen grocery requiring refrigeration or freezing; Baked goods; Meat; Milk & dairy; Cold prepared foods; Bulk foods.' Cold prepared food is listed; hot prepared food is not. 'Every partner agency has cold, freezer, and ambient storage.' Asks donors to confirm acceptance before delivering.",
+      "source_url": "https://resource.stopwaste.org/vendor/alameda-county-community-food-bank-oakland-7900-edgewater-dr"
+    }
+  ]
+}
