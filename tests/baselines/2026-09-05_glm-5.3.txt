@@ -1,55 +1,87 @@
+provider=glm model=glm-5.3
+trace:
+  kitchen_surplus_orchestrator -> parse_pos_export
+  kitchen_surplus_orchestrator -> safety_agent
+  safety_agent -> compute_hold_window
+  safety_agent -> compute_hold_window
+  safety_agent -> compute_hold_window
+  safety_agent -> compute_hold_window
+  safety_agent -> compute_hold_window
+  safety_agent -> compute_hold_window
+  safety_agent -> compute_hold_window
+  safety_agent -> compute_hold_window
+  safety_agent -> compute_hold_window
+  safety_agent -> compute_hold_window
+  safety_agent -> compute_hold_window
+  safety_agent -> build_chill_plan
+  safety_agent -> build_chill_plan
+  safety_agent -> build_chill_plan
+  safety_agent -> build_chill_plan
+  safety_agent -> build_chill_plan
+  safety_agent -> build_chill_plan
+  kitchen_surplus_orchestrator -> matching_agent
+  matching_agent -> list_recipients
+  matching_agent -> check_intake_eligibility
+  matching_agent -> check_intake_eligibility
+  matching_agent -> check_intake_eligibility
+  matching_agent -> check_intake_eligibility
+  matching_agent -> check_intake_eligibility
+  matching_agent -> check_intake_eligibility
+  matching_agent -> check_intake_eligibility
+  matching_agent -> check_intake_eligibility
+  matching_agent -> check_intake_eligibility
+  matching_agent -> check_intake_eligibility
+  matching_agent -> check_intake_eligibility
+  matching_agent -> check_intake_eligibility
+  matching_agent -> check_intake_eligibility
+  matching_agent -> check_intake_eligibility
+  matching_agent -> check_intake_eligibility
+  matching_agent -> check_intake_eligibility
+  matching_agent -> check_intake_eligibility
+  matching_agent -> check_intake_eligibility
+  matching_agent -> check_intake_eligibility
+  matching_agent -> next_open_window
+  matching_agent -> next_open_window
+  matching_agent -> next_open_window
+  matching_agent -> next_open_window
+  kitchen_surplus_orchestrator -> matching_agent
+  kitchen_surplus_orchestrator -> matching_agent
 
+Done. Everything places with one pickup, no safety veto against it — but the fried rice is already dead. Here's your night.
 
-===TOOLCALLS=== ['parse_pos_export', 'safety_agent', 'matching_agent']
-===ANSWER===
-## TONIGHT — 21:30 to 21:45 (this decides whether tomorrow's donation exists)
+## TONIGHT — 15 minutes, starting 21:30
 
-**Do first — these two are already burning clock:**
-- [ ] **Mac & Cheese, 13.0 lbs** — into rapid cool NOW. Danger-zone clock started 20:00 (FDA Food Code 3-501.19). Split into shallow pans.
-- [ ] **Kung Pao Chicken, 8.0 lbs** — into rapid cool NOW. Clock started 21:00 when holding hit 129F (FDA 3-501.19).
+**21:30–21:45 — Get it moving:**
+- [ ] **Bin the Yangzhou fried rice, 14 lb.** Don't chill it, don't pack it — its clock expired at 20:30, before close (FDA 3-501.19).
+- [ ] **Split hot food into shallow pans / ice bath now:** chicken 30 lb, jasmine rice 14 lb, chowder 6 lb, bao 5.6 lb, kung pao 8 lb, mac & cheese 13 lb. Mac & cheese has been sitting in the danger zone since 20:00 — shallow pans, maximum surface area, it goes first.
+- [ ] **Cold items → walk-in:** Caesar 4.2 lb, salad mix 8 lb, watermelon 6 lb. Confirm walk-in reads ≤41F and stays there (FDA 3-501.16).
+- [ ] **Rolls 2.85 lb:** bag, label, ambient shelf. Done.
+- [ ] **Assign someone to log temps at 23:30 and at each final checkpoint.** No logged temp = treat as missed.
 
-**Then, same treatment:**
-- [ ] Rotisserie Chicken, 30.0 lbs
-- [ ] Jasmine Rice, 14.0 lbs
-- [ ] Clam Chowder, 6.0 lbs (shallow pans — soup cools slow)
-- [ ] Pork Belly Bao, 5.6 lbs
+**Checkpoints due (all per FDA 3-501.14):**
 
-All six: shallow pans, ice bath or blast chiller. Checkpoints for every one:
-- **≤70F by 23:30 tonight**
-- **≤41F by 03:30**
-- Miss either → reheat to 165F and restart, or discard (FDA Food Code 3-501.14)
+| Item | ≤70F by | ≤41F by |
+|---|---|---|
+| Chicken, rice, chowder, bao | **23:30** | **03:30** |
+| Kung pao (clock running since 21:00, FDA 3-501.19) | **23:30** | **01:00** |
+| Mac & cheese (clock running since 20:00) | **23:30** | **00:00 — midnight** |
 
-**While that's set up:**
-- [ ] Salad (4.2 lbs), watermelon (6.0 lbs), bagged greens (8.0 lbs) → walk-in, hold ≤41F. No hard end time from the engine — safe only while the cold chain holds (FDA 3-501.16). Verify ≤41F at handoff.
-- [ ] Dinner rolls, 2.85 lbs → bag, shelf. Non-TCS, no clock.
-- [ ] Label everything with chill start time. Log the 21:30 temps.
+Miss a 70F checkpoint → reheat to 165F and restart cooling, or discard. That's the rule that saves or kills tomorrow.
 
-**Hard deadline reminder:** Mac & Cheese's total danger-zone exposure must end by **00:00** — cooling to ≤41F cannot slip past that.
+## TOMORROW
 
-## TOMORROW — Sunday 2026-09-06
+**Primary — one pickup, everything (~98 lb):**
+- **Food Runners SF (ExtraFood)** — call at opening Sunday, dispatch model is "call in the morning, we come within 1–2 hours." Contact: Donate@extrafood.org, but use the phone process at foodrunners.org/donate-food. Accepts perishable + prepared from restaurants, no published weight limits.
+- **Confirm by phone (unpublished):** (1) someone actually answers and runs the 1–2h service on Sundays; (2) ~98 lb mixed load is fine; (3) your address is inside their SF pickup range.
 
-**Primary — one call, everything goes:**
-- **Food Runners SF (ExtraFood)** — all 10 items, **97.65 lbs**
-- Contact: **donate@extrafood.org** — their model is call in the morning, pickup in 1–2 hours
-- Takes cold-prepared, produce, and shelf-stable; no published quantity limits (foodrunners.org/donate-food/)
-
-**Confirm with them — unpublished:**
-1. Sunday pickup available at all
-2. Sunday pickup window
-3. You're inside SF city limits (they didn't have your address)
-4. Shellfish OK — chowder contains clams; no published allergen policy
-
-**Fallback if Food Runners can't do Sunday — you drive:**
-- **White Pony Express** — 94.75 lbs (everything except the rolls)
-- Drop-off window **08:00–16:00, after 11:00 preferred** (whiteponyexpress.org FAQ)
-- Pickup is off the table: they require **300 lbs minimum** for pickup, you have 97.65
-- Rolls aren't in their accepted categories — keep them for Food Runners or Alameda County Food Bank (Monday 07:00–16:00, confirm acceptance before delivering)
-
-**Monday backup if tomorrow fails entirely:** Alameda County Community Food Bank, Mon 07:00–16:00, takes all three classes and offers pickup — but confirm acceptance first.
-
-One catch: all of tomorrow's placements assume the 03:30 cooling actually completes. Anything still hot at handoff → Food Runners only.
+**Backup — if they decline Sunday (you drive):**
+- **White Pony Express, Concord** — Sunday drop-off 08:00–16:00, *preferably after 11:00*. Info@WhitePonyExpress.org. Takes everything **except the rolls** (no shelf-stable, per whiteponyexpress.org FAQ). Their 300-lb minimum kills pickup by them — you deliver. Confirm drop-off address and that they'll accept your commercial-kitchen, cold-held load.
+- Rolls would need a separate home on this path — no Sunday recipient listed takes them besides Food Runners.
+- **Last resort:** Alameda County Community Food Bank, Monday 07:00 (closed Sundays, stopwaste.org listing).
 
 ## DISCARD
 
-- **Yangzhou Fried Rice, 14.0 lbs** — danger-zone clock ran out at **20:30**, an hour before close. Held 88F since 16:30; 4-hour limit exceeded (FDA Food Code 3-501.19). Cooling cannot restart an expired clock. Trash it now so nobody "rescues" it.
+- **Yangzhou Fried Rice, 14 lb** — FDA Food Code 3-501.19: 4-hour danger-zone clock started 16:30, expired 20:30, an hour before close. Cooling cannot revive an expired clock.
+- **Conditional:** mac & cheese 13 lb if not ≤41F by midnight; kung pao 8 lb if not ≤41F by 01:00. Same rule.
 
+~84 lb donatable if the checkpoints hold. Set your 23:30 alarm.
