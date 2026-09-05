@@ -93,3 +93,32 @@ def test_saturday_close_leaves_food_banks_shut_until_monday():
 def test_every_recipient_constraint_is_sourced():
     for recipient in load_recipients():
         assert recipient.source_url.startswith("https://")
+
+
+def test_chill_schedule_is_capped_by_accrued_danger_zone_time():
+    """Cooling does not reset a clock that is already running.
+
+    The two-stage schedule assumes food leaving the stove above 135F. An item
+    that has been sitting at 96F since 20:00 has already spent 1.5 of its 4
+    danger-zone hours, so it must reach 41F by 00:00, not 03:30.
+    """
+    r = call(build_chill_plan, item_name="Mac and Cheese", current_temp_f=96.0,
+             start_at=CLOSE, danger_zone_entered_at="2026-09-05T20:00")
+    assert r["schedule_capped_by_danger_zone"] is True
+    assert r["checkpoints"][1]["by"] == "2026-09-06T00:00:00"
+    assert r["danger_zone_deadline"] == "2026-09-06T00:00:00"
+
+
+def test_cooling_cannot_restart_an_expired_clock():
+    r = call(build_chill_plan, item_name="Yangzhou Fried Rice",
+             current_temp_f=88.0, start_at=CLOSE,
+             danger_zone_entered_at="2026-09-05T16:30")
+    assert r["applicable"] is False
+    assert "cannot restart an expired clock" in r["reason"]
+
+
+def test_hot_item_not_yet_in_danger_zone_keeps_full_schedule():
+    r = call(build_chill_plan, item_name="Rotisserie Chicken",
+             current_temp_f=141.0, start_at=CLOSE)
+    assert r["schedule_capped_by_danger_zone"] is False
+    assert r["checkpoints"][1]["by"] == "2026-09-06T03:30:00"

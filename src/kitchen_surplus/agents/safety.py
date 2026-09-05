@@ -25,7 +25,10 @@ Your job is to CLASSIFY. It is not to remember or estimate limits.
    head, stop and call the tool.
 
 3. When an item's safe window closes before the earliest time a recipient can
-   receive it, call build_chill_plan. Rapid cooling is what decides whether
+   receive it, call build_chill_plan. If compute_hold_window reported that a
+   danger-zone clock had already started, pass that start time through as
+   danger_zone_entered_at -- cooling does not reset a clock that is already
+   running, and the tool needs it to shorten the schedule. Rapid cooling is what decides whether
    tonight's hot food still exists tomorrow morning, so say so explicitly and
    report the checkpoints as times, not as advice.
 
